@@ -25,7 +25,7 @@
 		</connectorBase>
 	</head>
 	<body id="body1">
-		<port component="script" id="porta1"/>
+		<port component="video" id="porta1"/>
 		<media descriptor="dScript" id="script" src="script.lua"/>
 		<media descriptor="dTitulo" id="titulo" src="media/Titulo.txt">
 			<property name="fontSize" value="20"/>
@@ -35,37 +35,42 @@
 		<media descriptor="dStop" id="imgStop" src="media/stop.png"/>
 		<media descriptor="dVideo" id="video" src="media/video1.mp4"/>
 		<link id="IniciaTudo" xconnector="conn#onBeginStartN">
-			<bind component="script" role="onBegin"/>
-			<bind component="video" role="start"/>
+			<bind component="video" role="onBegin"/>
 			<bind component="imgPlay" role="start"/>
 			<bind component="titulo" role="start"/>
 		</link>
-		<link id="Pause" xconnector="conn#onPauseNPauseNStartNStopN">
-			<bind component="script" role="onPause"/>
+		<link id="Stop" xconnector="conn#onKeySelectionStartNStopN">
+			<bind component="imgPlay" role="onSelection">
+				<bindParam name="key" value="RED"/>
+			</bind>
+			<bind component="video" role="stop"/>
+			<bind component="imgStop" role="start"/>
+			<bind component="imgPlay" role="stop"/>
+		</link>
+		<link id="Pause" xconnector="conn#onKeySelectionStartNStopNPauseN">
+			<bind component="imgPlay" role="onSelection">
+				<bindParam name="key" value="YELLOW"/>
+			</bind>
 			<bind component="video" role="pause"/>
 			<bind component="imgPause" role="start"/>
 			<bind component="imgPlay" role="stop"/>
 		</link>
-		<link id="Resume" xconnector="conn#onResumeNResumeNStopNStartN">
-			<bind component="script" role="onResume"/>
+		<link id="Resume" xconnector="conn#onKeySelectionStartNStopNResumeN">
+			<bind component="imgPause" role="onSelection">
+				<bindParam name="key" value="GREEN"/>
+			</bind>
 			<bind component="video" role="resume"/>
 			<bind component="imgPlay" role="start"/>
 			<bind component="imgPause" role="stop"/>
 		</link>
-		<link id="Stop" xconnector="conn#onEndNStopNPauseNStartN">
-			<bind component="script" role="onEnd"/>
-			<bind component="imgPlay" role="stop"/>
-			<bind component="imgPause" role="stop"/>
-			<bind component="video" role="pause"/>
-			<bind component="imgStop" role="start"/>
-		</link>
-		<link id="StopAll" xconnector="conn#onEndNStopN">
-			<bind component="script" role="onEnd"/>
-			<bind component="imgPlay" role="stop"/>
-			<bind component="imgPause" role="stop"/>
-			<bind component="video" role="stop"/>
-			<bind component="imgStop" role="stop"/>
-			<bind component="titulo" role="stop"/>
+		<link id="StopAll" xconnector="conn#onBeginStopN">
+			<bind component="imgStop" role="onBegin"/>
+			<bind component="titulo" role="stop">
+				<bindParam name="delay" value="2s"/>
+			</bind>
+			<bind component="imgStop" role="stop">
+				<bindParam name="delay" value="2s"/>
+			</bind>
 		</link>
 	</body>
 </ncl>

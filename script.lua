@@ -1,5 +1,7 @@
 function tratador (evt)
-	if (evt.class == 'key') and (evt.type == 'press') then
+  print("--> TRATADOR KEYS")
+  print(evt.key)
+	--[[if (evt.class == 'key') and (evt.type == 'press') then
 		print("--> TRATADOR KEYS")
 		print(evt.key)
 		if (evt.key == 'RED') then
@@ -21,7 +23,7 @@ function tratador (evt)
 				action = 'pause',
 			}
 		end	
-	end
+	end]]--
 end
 
 event.register(tratador)
