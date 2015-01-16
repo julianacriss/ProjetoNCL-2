@@ -1,20 +1,9 @@
 dofile("lib/LuaXML/xml.lua")
 dofile("lib/LuaXML/handler.lua")
 
-local function tratamento()
-  local evtGreen = {
-    class = 'ncl',
-    type  = 'attribution',
-    name  = 'green',
-    value = 1,
-  }
-  
-  local evtYellow = {
-    class = 'ncl',
-    type  = 'attribution',
-    name  = 'yellow',
-    value = 2,
-  }
+local function tratador()
+  local evtGreen =  { class = 'ncl', type  = 'attribution', name  = 'green',  value = 1, }
+  local evtYellow = { class = 'ncl', type  = 'attribution', name  = 'yellow', value = 2, }
 
   while true do
     local path = "/misc/ncl30/mpeg-u.xml"
@@ -45,4 +34,5 @@ local function tratamento()
 end -- function
 
 
-event.timer(2000, tratamento)
+--event.register(tratador)
+event.timer(0, tratador)
