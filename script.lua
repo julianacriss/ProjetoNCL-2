@@ -1,11 +1,14 @@
+print("--> SCRIPT")
+
 dofile("lib/LuaXML/xml.lua")
 dofile("lib/LuaXML/handler.lua")
 
-local function tratador()
-  local evtGreen =  { class = 'ncl', type  = 'attribution', name  = 'green',  value = 1, }
-  local evtYellow = { class = 'ncl', type  = 'attribution', name  = 'yellow', value = 2, }
+local function update()
+  local evtGreen  = { class = 'ncl', type  = 'attribution', name  = 'green',  value = 1, }
+  local evtYellow = { class = 'ncl', type  = 'attribution', name  = 'yellow', value = 1, }
+  local loop      = { class = 'ncl', type  = 'attribution', name  = 'loop',   value = 1, }
 
-  while true do
+  --while true do
     local path = "/misc/ncl30/mpeg-u.xml"
     local arquivo = io.open(path, "r")
     if arquivo then
@@ -26,13 +29,19 @@ local function tratador()
           end
         io.close(arquivo)
       os.remove(path)
-      end -- if content
-      
+      end -- if content   
     end --if arquivo
-    
-  end -- while
+  --end
+  loop.action = 'start'; event.post(loop)
+  loop.action = 'stop' ; event.post(loop)
 end -- function
 
+function tratador (evt)
+  if evt.action == 'start' then
+    update()
+  end
+end
 
---event.register(tratador)
-event.timer(0, tratador)
+event.register(tratador)
+--event.register(tratador, 'ncl', 'presentation')
+--event.timer(0, tratador)

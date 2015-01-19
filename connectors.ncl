@@ -55,6 +55,15 @@
 					<simpleAction max="unbounded" qualifier="par" role="stop"/>
 				</compoundAction>
 			</causalConnector>
+			<causalConnector id="onEndNStopNAbortN">
+				<compoundCondition operator="or">
+					<simpleCondition max="unbounded" qualifier="or" role="onEnd"/>
+				</compoundCondition>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop"/>
+					<simpleAction max="unbounded" qualifier="par" role="abort"/>
+				</compoundAction>
+			</causalConnector>
 			<causalConnector id="onKeySelectionStartN">
 				<connectorParam name="key"/>
 				<simpleCondition key="$key" role="onSelection"/>
@@ -110,6 +119,14 @@
 					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
 				</compoundAction>
 			</causalConnector>
+			<causalConnector id="onBeginStopNAbortN">
+				<connectorParam name="delay"/>
+				<simpleCondition role="onBegin"/>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="abort" delay="$delay"/>
+				</compoundAction>
+			</causalConnector>
 			<causalConnector id="onBeginStopNPauseN">
 				<connectorParam name="delay"/>
 				<simpleCondition role="onBegin"/>
@@ -149,6 +166,11 @@
             	<simpleCondition role="onEndAttribution" />
             	<simpleAction role="start" />
         	</causalConnector>
+        	<causalConnector id="onEndAttributionSet">
+				<connectorParam name="value" />
+				<simpleCondition role="onEndAttribution" />
+				<simpleAction role="set" value="$value" max="unbounded" />
+			</causalConnector>
 		</connectorBase>
 	</head>
 </ncl>

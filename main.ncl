@@ -29,7 +29,8 @@
 		<media descriptor="dScript" id="script" src="script.lua">
 			<property name="green"/>
 			<property name="red"/>
-			<property name="yellow"/>			
+			<property name="yellow"/>	
+			<property name="loop"/>		
 		</media>
 		<media descriptor="dTitulo" id="titulo" src="media/Titulo.txt">
 			<property name="fontSize" value="20"/>
@@ -45,7 +46,7 @@
 			<bind component="imgPlay" role="start"/>
 			<bind component="titulo" role="start"/>
 		</link>
-		<link id="StopAll" xconnector="conn#onBeginStopN">
+		<link id="StopAll" xconnector="conn#onBeginStopNAbortN">
 			<bind component="imgStop" role="onBegin"/>
 			<bind component="titulo" role="stop">
 				<bindParam name="delay" value="2s"/>
@@ -53,7 +54,20 @@
 			<bind component="imgStop" role="stop">
 				<bindParam name="delay" value="2s"/>
 			</bind>
+			<bind component="script" interface="loop" role="abort"/>
 		</link>
+		<link id="StopAll2" xconnector="conn#onEndNStopNAbortN">
+			<bind component="video" role="onEnd"/>
+			<bind component="titulo" role="stop"/>
+			<bind component="imgPlay" role="stop"/>
+			<bind component="script" interface="loop" role="abort"/>
+		</link>
+		<link id="Loop" xconnector="conn#onEndAttributionSet">
+          <bind role="onEndAttribution" component="script" interface="loop"/>
+          <bind role="set" component="script" interface="loop">
+          	<bindParam name="value" value="2" />	
+	      </bind>
+      	</link>
 		<!-- Links -->
 		<link id="Stop" xconnector="conn#onBeginStopN">
 			<bind component="imgStop" role="onBegin"/>
