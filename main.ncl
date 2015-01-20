@@ -82,6 +82,7 @@
 			<bind component="imgPause" role="onBegin"/>
 			<bind component="video" role="pause"/>
 			<bind component="imgPlay" role="stop"/>
+			<bind component="imgStop" role="stop"/>
 		</link>
 		<link id="Resume" xconnector="conn#onEndAttributionStopNStartNResumeN">
 			<bind component="imgPlay" interface="resume" role="onEndAttribution"/>
