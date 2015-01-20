@@ -6,6 +6,7 @@ dofile("lib/LuaXML/handler.lua")
 local function update()
   local evtGreen  = { class = 'ncl', type  = 'attribution', name  = 'green',  value = 1, }
   local evtYellow = { class = 'ncl', type  = 'attribution', name  = 'yellow', value = 1, }
+  local evtRed    = { class = 'ncl', type  = 'attribution', name  = 'red', value = 1, }
   local loop      = { class = 'ncl', type  = 'attribution', name  = 'loop',   value = 1, }
 
   --while true do
@@ -20,12 +21,15 @@ local function update()
           local xmlparser = xmlParser(xmlhandler)
           xmlparser:parse(content)      
           print(xmlhandler.root['aui:HandGesture']._attr.gesture)          
-          if (xmlhandler.root['aui:HandGesture']._attr.gesture == 'hand_left') then
+          if (xmlhandler.root['aui:HandGesture']._attr.gesture == 'slap_right') then
             evtGreen.action = 'start'; event.post(evtGreen)
             evtGreen.action = 'stop' ; event.post(evtGreen)
-          elseif (xmlhandler.root['aui:HandGesture']._attr.gesture == 'hand_right') then
+          elseif (xmlhandler.root['aui:HandGesture']._attr.gesture == 'slap_left') then
             evtYellow.action = 'start'; event.post(evtYellow)
             evtYellow.action = 'stop' ; event.post(evtYellow)
+          elseif (xmlhandler.root['aui:HandGesture']._attr.gesture == 'slap_bottom') then
+            evtRed.action = 'start'; event.post(evtRed)
+            evtRed.action = 'stop' ; event.post(evtRed)
           end
         io.close(arquivo)
       os.remove(path)
