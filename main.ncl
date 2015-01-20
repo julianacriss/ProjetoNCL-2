@@ -35,7 +35,10 @@
 		<media descriptor="dTitulo" id="titulo" src="media/Titulo.txt">
 			<property name="fontSize" value="20"/>
 		</media>
-		<media descriptor="dPlay" id="imgPlay" src="media/play.png"/>
+		<media descriptor="dPlay" id="imgPlay" src="media/play.png">
+			<property name="start"/>
+			<property name="resume"/>				
+		</media>
 		<media descriptor="dPause" id="imgPause" src="media/pause.png"/>
 		<media descriptor="dStop" id="imgStop" src="media/stop.png"/>
 		<media descriptor="dVideo" id="video" src="media/video1.mp4"/>
@@ -46,7 +49,7 @@
 			<bind component="imgPlay" role="start"/>
 			<bind component="titulo" role="start"/>
 		</link>
-		<link id="StopAll" xconnector="conn#onBeginStopNAbortN">
+		<!--link id="StopAll" xconnector="conn#onBeginStopNAbortN">
 			<bind component="imgStop" role="onBegin"/>
 			<bind component="titulo" role="stop">
 				<bindParam name="delay" value="2s"/>
@@ -55,13 +58,7 @@
 				<bindParam name="delay" value="2s"/>
 			</bind>
 			<bind component="script" interface="loop" role="abort"/>
-		</link>
-		<link id="StopAll2" xconnector="conn#onEndNStopNAbortN">
-			<bind component="video" role="onEnd"/>
-			<bind component="titulo" role="stop"/>
-			<bind component="imgPlay" role="stop"/>
-			<bind component="script" interface="loop" role="abort"/>
-		</link>
+		</link-->
 		<link id="Loop" xconnector="conn#onEndAttributionSet">
           <bind role="onEndAttribution" component="script" interface="loop"/>
           <bind role="set" component="script" interface="loop">
@@ -75,15 +72,29 @@
 			<bind component="imgPlay" role="stop"/>
 			<bind component="imgPause" role="stop"/>
 		</link>
+		<link id="Stop2" xconnector="conn#onEndStopNStartN">
+			<bind component="video" role="onEnd"/>
+			<bind component="imgStop" role="start"/>
+			<bind component="imgPlay" role="stop"/>
+			<bind component="imgPause" role="stop"/>
+		</link>
 		<link id="Pause" xconnector="conn#onBeginStopNPauseN">
 			<bind component="imgPause" role="onBegin"/>
 			<bind component="video" role="pause"/>
 			<bind component="imgPlay" role="stop"/>
+			<bind component="imgStop" role="stop"/>
 		</link>
-		<link id="Resume" xconnector="conn#onBeginStopNResumeN">
-			<bind component="imgPlay" role="onBegin"/>
+		<link id="Resume" xconnector="conn#onEndAttributionStopNStartNResumeN">
+			<bind component="imgPlay" interface="resume" role="onEndAttribution"/>
 			<bind component="video" role="resume"/>
 			<bind component="imgPause" role="stop"/>
+			<bind component="imgPlay" role="start"/>
+		</link>
+		<link id="Play" xconnector="conn#onEndAttributionStopNStartN">
+			<bind component="imgPlay" interface="start" role="onEndAttribution"/>
+			<bind component="video" role="start"/>
+			<bind component="imgPlay" role="start"/>
+			<bind component="imgStop" role="stop"/>
 		</link>
 		<!-- Links para Interacao com Teclas -->
 		<link id="StopK" xconnector="conn#onKeySelectionStartN">
@@ -104,11 +115,17 @@
 			</bind>
 			<bind component="imgPause" role="start"/>
 		</link>
-		<link id="ResumeK" xconnector="conn#onKeySelectionStartN">
+		<link id="ResumeK" xconnector="conn#onKeySelectionSetN">
 			<bind component="imgPause" role="onSelection">
 				<bindParam name="key" value="GREEN"/>
 			</bind>
-			<bind component="imgPlay" role="start"/>
+			<bind component="imgPlay" role="set" interface="resume"/>
+		</link>
+		<link id="PlayK" xconnector="conn#onKeySelectionSetN">
+			<bind component="imgStop" role="onSelection">
+				<bindParam name="key" value="GREEN"/>
+			</bind>
+			<bind component="imgPlay" role="set" interface="start"/>>
 		</link>
 		<!-- Links para Interacao via MPEG-U -->
       	<link id="StopU" xconnector="conn#onEndAttributionStart">
@@ -119,9 +136,10 @@
           <bind role="onEndAttribution" component="script" interface="yellow"/>
           <bind role="start" component="imgPause" />
       	</link>
-      	<link id="PlayU" xconnector="conn#onEndAttributionStart">
+      	<link id="PlayU" xconnector="conn#onEndAttributionSet">
           <bind role="onEndAttribution" component="script" interface="green"/>
-          <bind role="start" component="imgPlay" />
+          <bind role="set" component="imgPlay" interface="resume"/>
+          <bind role="set" component="imgPlay" interface="start"/>
       	</link>
 	</body>
 </ncl>

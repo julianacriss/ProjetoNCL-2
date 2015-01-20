@@ -71,6 +71,13 @@
 					<simpleAction max="unbounded" min="unbounded" qualifier="par" role="start"/>
 				</compoundAction>
 			</causalConnector>
+			<causalConnector id="onKeySelectionSetN">
+				<connectorParam name="key"/>
+				<simpleCondition key="$key" role="onSelection"/>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" min="unbounded" qualifier="par" role="set"/>
+				</compoundAction>
+			</causalConnector>
 			<causalConnector id="onKeySelectionStopN">
 				<connectorParam name="key"/>
 				<simpleCondition key="$key" role="onSelection"/>
@@ -137,9 +144,47 @@
 			</causalConnector>
 			<causalConnector id="onBeginStopNResumeN">
 				<connectorParam name="delay"/>
+				<compoundCondition operator="and">
+					<simpleCondition role="onBegin" max="unbounded"/>
+				</compoundCondition>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="resume" delay="$delay"/>
+				</compoundAction>
+			</causalConnector>
+			<causalConnector id="onBeginStopNStartN">
+				<connectorParam name="delay"/>
+				<compoundCondition operator="and">
+					<simpleCondition role="onBegin" max="unbounded"/>
+				</compoundCondition>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="start" delay="$delay"/>
+				</compoundAction>
+			</causalConnector>
+			<causalConnector id="onEndAttributionStopNStartN">
+				<connectorParam name="delay"/>
+				<simpleCondition role="onEndAttribution" max="unbounded"/>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="start" delay="$delay"/>
+				</compoundAction>
+			</causalConnector>
+			<causalConnector id="onEndAttributionStopNStartNResumeN">
+				<connectorParam name="delay"/>
+				<simpleCondition role="onEndAttribution" max="unbounded"/>
+				<compoundAction operator="par">
+					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="start" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="resume" delay="$delay"/>
+				</compoundAction>
+			</causalConnector>
+			<causalConnector id="onBeginStopNStartNResumeN">
+				<connectorParam name="delay"/>
 				<simpleCondition role="onBegin"/>
 				<compoundAction operator="par">
 					<simpleAction max="unbounded" qualifier="par" role="stop" delay="$delay"/>
+					<simpleAction max="unbounded" qualifier="par" role="start" delay="$delay"/>
 					<simpleAction max="unbounded" qualifier="par" role="resume" delay="$delay"/>
 				</compoundAction>
 			</causalConnector>
@@ -153,15 +198,14 @@
 					<simpleAction max="unbounded" qualifier="par" role="start"/>
 				</compoundAction>
 			</causalConnector>
-			<causalConnector id="onEndNStopNStartN">
-				<compoundCondition operator="or">
-					<simpleCondition max="unbounded" qualifier="or" role="onEnd"/>
-				</compoundCondition>
+			<causalConnector id="onEndStopNStartN">
+				<simpleCondition max="unbounded" role="onEnd"/>
 				<compoundAction operator="par">
 					<simpleAction max="unbounded" qualifier="par" role="stop"/>
 					<simpleAction max="unbounded" qualifier="par" role="start"/>
 				</compoundAction>
 			</causalConnector>
+			
 			<causalConnector id="onEndAttributionStart">
             	<simpleCondition role="onEndAttribution" />
             	<simpleAction role="start" />
