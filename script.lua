@@ -1,5 +1,3 @@
-print("--> SCRIPT")
-
 dofile("lib/LuaXML/xml.lua")
 dofile("lib/LuaXML/handler.lua")
 
@@ -16,7 +14,6 @@ local function update()
       io.input(arquivo)
       local content = io.read()
       if (content ~= nil) then
-          print("--> CONTENT: ", content)
           local xmlhandler = simpleTreeHandler()
           local xmlparser = xmlParser(xmlhandler)
           xmlparser:parse(content)      
@@ -47,5 +44,3 @@ function tratador (evt)
 end
 
 event.register(tratador)
---event.register(tratador, 'ncl', 'presentation')
---event.timer(0, tratador)
